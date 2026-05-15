@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أكادمية تبيان لتعليم القرآن 🎈</title>
+    <title>أكاديمية تبيان لتعليم القرآن 🎈</title>
     <style>
         :root {
             --primary-color: #ff6f91;
             --secondary-color: #4dadf7;
             --success-color: #4caf50;
+        }
+
+        * {
+            box-sizing: border-box; /* لضمان دقة حسابات الأبعاد */
         }
 
         body {
@@ -34,27 +38,19 @@
             border-right: 4px dashed #fff;
         }
 
-        .cloud {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50px;
-            z-index: 0;
-        }
-
         #header {
             position: relative;
             z-index: 2;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 15px;
+            padding: 10px 15px;
             font-size: 16px;
             font-weight: bold;
             color: #37474f;
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 0 0 20px 20px;
-            margin: 0 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin: 0 5px;
         }
 
         .badge {
@@ -67,12 +63,12 @@
         #target-box {
             background: linear-gradient(45deg, #ff6b6b, #ff8e53);
             color: white;
-            padding: 6px 15px;
+            padding: 6px 12px;
             border-radius: 20px;
-            font-size: 18px;
+            font-size: 16px;
         }
 
-        /* حاوية الحرف - تم تقليص أبعادها وضبطها كفقاعة دائرية مرنة */
+        /* حاوية الحرف - فقاعة واضحة ومستقرة */
         .letter-container {
             position: absolute;
             display: inline-flex;
@@ -80,81 +76,96 @@
             align-items: center;
             justify-content: center;
             z-index: 1;
-            line-height: 0.7;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 50%;
-            width: 65px;
-            height: 65px;
-            border: 2px dashed rgba(0,0,0,0.1);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            pointer-events: none; /* لمنع أي تداخل مع اللمس */
+            width: 75px;
+            height: 75px;
+            border: 3px solid #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            pointer-events: none;
         }
 
-        /* الحرف الأساسي المعزول */
         .main-char {
-            font-size: 38px;
+            font-size: 34px;
             font-weight: bold;
-            margin: 0;
-            padding: 0;
+            color: #333;
+            line-height: 1;
         }
 
-        /* الحركة المستقلة تماماً فوق أو تحت الحرف */
         .diacritic {
-            font-size: 28px;
+            font-size: 30px;
             font-weight: bold;
-            height: 14px;
+            height: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
+            line-height: 1;
         }
 
+        /* السلة وتصميم التشكيل عليها */
         #basket {
             position: absolute;
-            bottom: 40px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            width: 120px;
-            height: 80px;
+            width: 100px;
+            height: 75px;
             background: linear-gradient(to bottom, #a1887f, #8d6e63);
-            border-radius: 5px 5px 40px 40px;
+            border-radius: 5px 5px 35px 35px;
             border: 4px solid #5d4037;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
+            justify-content: center;
             align-items: center;
-            z-index: 2;
+            z-index: 5;
         }
 
         #basket::before {
             content: "🧺";
-            font-size: 45px;
+            font-size: 40px;
             position: absolute;
             top: -35px;
         }
 
+        /* تعديل المربع ليكون التشكيل واضحاً جداً */
         #basket-label {
             background: #fff;
             color: #d32f2f;
-            font-size: 32px;
+            font-size: 45px; /* تكبير التشكيل */
             font-weight: bold;
-            padding: 0px 14px;
-            border-radius: 12px;
-            margin-bottom: 6px;
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%; /* جعل التشكيل في دائرة بيضاء ليبرز */
             border: 3px solid #ff9800;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
-            line-height: 1;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            margin-top: 10px;
+            z-index: 6;
         }
 
         .overlay-screen {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.97);
+            background: rgba(255, 255, 255, 0.98);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 10;
+            z-index: 100;
+        }
+
+        #level-splash {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(77, 173, 247, 0.95);
+            z-index: 200;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
         }
 
         .mode-grid {
@@ -166,63 +177,37 @@
         }
 
         .mode-btn {
-            padding: 20px;
-            font-size: 22px;
+            padding: 15px;
+            font-size: 20px;
             font-weight: bold;
             color: white;
             border: none;
-            border-radius: 20px;
+            border-radius: 15px;
             cursor: pointer;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
         }
-        .fatha-btn { background: linear-gradient(135deg, #ff9800, #ffb74d); }
-        .damma-btn { background: linear-gradient(135deg, #2196f3, #64b5f6); }
-        .kasra-btn { background: linear-gradient(135deg, #00bcd4, #4dd0e1); }
-        .sukun-btn { background: linear-gradient(135deg, #9c27b0, #ba68c8); }
-
-        .mode-btn span {
-            font-size: 35px;
-            margin-top: 5px;
-            background: rgba(255,255,255,0.25);
-            padding: 0 15px;
-            border-radius: 10px;
-        }
-
-        #level-up-alert {
-            display: none;
-            background: rgba(255, 193, 7, 0.95);
-            color: #333;
-            position: absolute;
-            top: 35%; left: 10%; right: 10%;
-            padding: 20px;
-            border-radius: 20px;
-            text-align: center;
-            z-index: 15;
-        }
+        .fatha-btn { background: #ff9800; }
+        .damma-btn { background: #2196f3; }
+        .kasra-btn { background: #00bcd4; }
+        .sukun-btn { background: #9c27b0; }
 
         .btn {
-            background: linear-gradient(45deg, #4caf50, #81c784);
+            background: #4caf50;
             color: white;
             border: none;
-            padding: 12px 35px;
-            font-size: 20px;
+            padding: 12px 30px;
+            font-size: 18px;
             font-weight: bold;
-            border-radius: 30px;
-            cursor: pointer;
-            margin-top: 15px;
+            border-radius: 25px;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
 <div id="game-container">
-    <div class="cloud" style="width:100px; height:30px; top:130px; left:20px;"></div>
-    <div class="cloud" style="width:120px; height:40px; top:220px; right:30px;"></div>
-
     <div id="header">
         <div>النقاط: <span id="score" style="color: #e91e63;">0</span> 🌟</div>
         <div id="level-badge" class="badge">المستوى: 1 🚀</div>
@@ -233,14 +218,15 @@
         <div id="basket-label">َ</div>
     </div>
 
-    <div id="level-up-alert">
-        <h2 id="level-up-text">كفو يا بطل! المستوى التالي ⚡</h2>
+    <div id="level-splash">
+        <h1 style="font-size: 60px;">🚀</h1>
+        <h2 id="splash-level-text" style="font-size: 35px;">المستوى 2</h2>
+        <p>أسرع يا بطل! 🔥</p>
     </div>
 
     <div id="main-menu" class="overlay-screen">
-        <h1 style="color: #ff6f91; font-size: 30px; text-align:center; margin-bottom:5px;">أكادمية تبيان لتعليم القرآن</h1>
-        <p style="font-size: 16px; color: #666; margin: 0;">اختر الحركة التي تريد التدرب عليها وصيدها:</p>
-        
+        <h1 style="color: #ff6f91; font-size: 28px; text-align:center;">أكاديمية تبيان لتعليم القرآن</h1>
+        <p>اختر الحركة لصيدها:</p>
         <div class="mode-grid">
             <button class="mode-btn fatha-btn" onclick="selectMode('fatha', 'الفتحة ✨', 'َ')">الفتحة ☀️<span>أَ</span></button>
             <button class="mode-btn damma-btn" onclick="selectMode('damma', 'الضمة ☁️', 'ُ')">الضمة ☁️<span>أُ</span></button>
@@ -250,18 +236,11 @@
     </div>
 
     <div id="game-over-screen" class="overlay-screen" style="display: none;">
-        <h1 style="color: #f44336; font-size: 38px; margin-bottom: 5px;">حاول مرة أخرى! 💔</h1>
-        <p id="error-reason" style="font-size: 18px; color: #555; text-align: center; padding:0 20px; margin-bottom: 15px;"></p>
-        <h2>المستوى الذي وصلته: <span id="final-level" style="color:#2196f3;">1</span></h2>
-        <h3>نقاطك في هذا التحدي: <span id="final-score" style="color:#4caf50;">0</span></h3>
-        <button class="btn" style="background: linear-gradient(45deg, #ff5722, #ff8a65 warm);" onclick="resetGame()">إعادة المحاولة 🔄</button>
-        <button class="btn" style="background: linear-gradient(45deg, #757575, #9e9e9e);" onclick="backToMenu()">القائمة الرئيسية 🏠</button>
-    </div>
-
-    <div id="win-screen" class="overlay-screen" style="display: none;">
-        <h1 style="color: #4caf50; font-size: 40px; text-align: center;">👑 بطل التاج القرآني 👑</h1>
-        <h2 style="color: #ff9800; text-align: center;">تهانينا! أكملت الـ 20 مستوى بنجاح!</h2>
-        <button class="btn" onclick="backToMenu()">العودة للقائمة الرئيسية 🏆</button>
+        <h1 style="color: #f44336;">حاول مرة أخرى! 💔</h1>
+        <p id="error-reason" style="font-size: 18px; text-align: center; padding: 0 20px;"></p>
+        <h2>النقاط: <span id="final-score">0</span></h2>
+        <button class="btn" onclick="resetGame()">إعادة المحاولة 🔄</button>
+        <button class="btn" style="background: #9e9e9e;" onclick="backToMenu()">القائمة الرئيسية 🏠</button>
     </div>
 </div>
 
@@ -271,54 +250,37 @@
     const basketLabel = document.getElementById('basket-label');
     const scoreDisplay = document.getElementById('score');
     const levelBadge = document.getElementById('level-badge');
-    const targetBox = document.getElementById('target-box');
-    
     const mainMenu = document.getElementById('main-menu');
     const gameOverScreen = document.getElementById('game-over-screen');
-    const winScreen = document.getElementById('win-screen');
+    const levelSplash = document.getElementById('level-splash');
     
-    const finalScoreDisplay = document.getElementById('final-score');
-    const finalLevelDisplay = document.getElementById('final-level');
-    const errorReason = document.getElementById('error-reason');
-    const levelUpAlert = document.getElementById('level-up-alert');
-    const levelUpText = document.getElementById('level-up-text');
-
     let score = 0;
     let currentLevel = 1;
-    const maxLevels = 20;
-    
-    let startSpeed = 1.6; 
+    let startSpeed = 2.0;
     let currentSpeed = startSpeed;
     let gameActive = false;
     let letterInterval;
-    let lastXPosition = -1; // تتبع موقع آخر حرف نزل لمنع الالتصاق
-    
+    let lastXPosition = -1;
     let selectedGameMode = 'fatha';
 
     const letterPool = {
         fatha: [
-            { char: "أ", diac: "َ", pos: "top", type: "fatha" }, { char: "ب", diac: "َ", pos: "top", type: "fatha" }, { char: "ت", diac: "َ", pos: "top", type: "fatha" },
-            { char: "ث", diac: "َ", pos: "top", type: "fatha" }, { char: "ج", diac: "َ", pos: "top", type: "fatha" }, { char: "ش", diac: "َ", pos: "top", type: "fatha" },
-            { char: "ب", diac: "ِ", pos: "bottom", type: "kasra" }, { char: "ت", diac: "ِ", pos: "bottom", type: "kasra" }, { char: "ث", diac: "ُ", pos: "top", type: "damma" }, { char: "ج", diac: "ُ", pos: "top", type: "damma" }
+            { char: "أ", diac: "َ", pos: "top", type: "fatha" }, { char: "ب", diac: "َ", pos: "top", type: "fatha" },
+            { char: "س", diac: "ِ", pos: "bottom", type: "kasra" }, { char: "م", diac: "ُ", pos: "top", type: "damma" }
         ],
         damma: [
-            { char: "أ", diac: "ُ", pos: "top", type: "damma" }, { char: "ب", diac: "ُ", pos: "top", type: "damma" }, { char: "ت", diac: "ُ", pos: "top", type: "damma" },
-            { char: "ث", diac: "ُ", pos: "top", type: "damma" }, { char: "ج", diac: "ُ", pos: "top", type: "damma" }, { char: "خ", diac: "ُ", pos: "top", type: "damma" },
-            { char: "ب", diac: "َ", pos: "top", type: "fatha" }, { char: "ت", diac: "َ", pos: "top", type: "fatha" }, { char: "س", diac: "ِ", pos: "bottom", type: "kasra" }, { char: "م", diac: "ِ", pos: "bottom", type: "kasra" }
+            { char: "أ", diac: "ُ", pos: "top", type: "damma" }, { char: "ت", diac: "ُ", pos: "top", type: "damma" },
+            { char: "ر", diac: "َ", pos: "top", type: "fatha" }, { char: "ج", diac: "ِ", pos: "bottom", type: "kasra" }
         ],
         kasra: [
-            { char: "إ", diac: "ِ", pos: "bottom", type: "kasra" }, { char: "ب", diac: "ِ", pos: "bottom", type: "kasra" }, { char: "ت", diac: "ِ", pos: "bottom", type: "kasra" },
-            { char: "ث", diac: "ِ", pos: "bottom", type: "kasra" }, { char: "ج", diac: "ِ", pos: "bottom", type: "kasra" }, { char: "خ", diac: "ِ", pos: "bottom", type: "kasra" },
-            { char: "ب", diac: "َ", pos: "top", type: "fatha" }, { char: "ج", diac: "ُ", pos: "top", type: "damma" }, { char: "ش", diac: "ُ", pos: "top", type: "damma" }, { char: "س", diac: "َ", pos: "top", type: "fatha" }
+            { char: "إ", diac: "ِ", pos: "bottom", type: "kasra" }, { char: "ب", diac: "ِ", pos: "bottom", type: "kasra" },
+            { char: "د", diac: "َ", pos: "top", type: "fatha" }, { char: "ف", diac: "ُ", pos: "top", type: "damma" }
         ],
         sukun: [
-            { char: "ب", diac: "ْ", pos: "top", type: "sukun" }, { char: "ت", diac: "ْ", pos: "top", type: "sukun" }, { char: "ث", diac: "ْ", pos: "top", type: "sukun" },
-            { char: "م", diac: "ْ", pos: "top", type: "sukun" }, { char: "ن", diac: "ْ", pos: "top", type: "sukun" }, { char: "ل", diac: "ْ", pos: "top", type: "sukun" },
-            { char: "ب", diac: "َ", pos: "top", type: "fatha" }, { char: "ب", diac: "ِ", pos: "bottom", type: "kasra" }, { char: "ب", diac: "ُ", pos: "top", type: "damma" }
+            { char: "ب", diac: "ْ", pos: "top", type: "sukun" }, { char: "م", diac: "ْ", pos: "top", type: "sukun" },
+            { char: "أ", diac: "َ", pos: "top", type: "fatha" }, { char: "ك", diac: "ُ", pos: "top", type: "damma" }
         ]
     };
-
-    const colors = ['#ff1744', '#00e676', '#2979ff', '#ff9100', '#d500f9', '#ff3d00', '#4caf50'];
 
     window.addEventListener('mousemove', (e) => { moveBasket(e.clientX); });
     window.addEventListener('touchmove', (e) => { if(e.touches[0]) moveBasket(e.touches[0].clientX); });
@@ -327,15 +289,17 @@
         if (!gameActive) return;
         const rect = container.getBoundingClientRect();
         let relativeX = xPos - rect.left;
-        if (relativeX < 60) relativeX = 60;
-        if (relativeX > rect.width - 60) relativeX = rect.width - 60;
+        let halfBasket = basket.offsetWidth / 2;
+        // منع السلة من الخروج من الحواف
+        if (relativeX < halfBasket) relativeX = halfBasket;
+        if (relativeX > rect.width - halfBasket) relativeX = rect.width - halfBasket;
         basket.style.left = relativeX + 'px';
     }
 
     function selectMode(mode, targetText, basketText) {
         selectedGameMode = mode;
-        targetBox.innerText = `المطلوب: ${targetText}`;
         basketLabel.innerText = basketText;
+        document.getElementById('target-box').innerText = `المطلوب: ${targetText}`;
         mainMenu.style.display = 'none';
         startGame();
     }
@@ -348,8 +312,7 @@
         
         const containerEl = document.createElement('div');
         containerEl.classList.add('letter-container');
-        containerEl.style.color = colors[Math.floor(Math.random() * colors.length)];
-
+        
         const diacriticEl = document.createElement('div');
         diacriticEl.classList.add('diacritic');
         diacriticEl.innerText = letterData.diac;
@@ -366,64 +329,54 @@
             containerEl.appendChild(diacriticEl);
         }
 
-        const containerWidth = container.offsetWidth;
-        
-        // خوارزمية منع التكدس: التأكد من أن الحرف الجديد يبتعد بمسافة آمنة عن الحرف السابق
+        // حل مشكلة أطراف الشاشة:
+        // نترك هامش 45 بكسل من كل جهة (نصف قطر الفقاعة + قليل من الأمان)
+        const margin = 45;
+        const availableWidth = container.offsetWidth - (margin * 2);
         let randomX;
-        let attempts = 0;
-        do {
-            randomX = Math.random() * (containerWidth - 90) + 15;
-            attempts++;
-        } while (lastXPosition !== -1 && Math.abs(randomX - lastXPosition) < 90 && attempts < 10);
         
-        lastXPosition = randomX; // حفظ الإحداثي الجديد لحماية الحرف القادم
-
+        do {
+            randomX = Math.random() * availableWidth + margin;
+        } while (lastXPosition !== -1 && Math.abs(randomX - lastXPosition) < 80);
+        
+        lastXPosition = randomX;
         containerEl.style.left = randomX + 'px';
-        containerEl.style.top = '70px';
+        containerEl.style.transform = 'translateX(-50%)'; // لضمان أن الإحداثي هو مركز الفقاعة
+        containerEl.style.top = '-80px';
         container.appendChild(containerEl);
 
-        let topPos = 70;
-        const fallSpeed = currentSpeed + (Math.random() * 0.2);
+        let topPos = -80;
+        const fallSpeed = currentSpeed + (Math.random() * 0.5);
 
         function fall() {
-            if (!gameActive) {
-                containerEl.remove();
-                return;
-            }
-
+            if (!gameActive) { containerEl.remove(); return; }
             topPos += fallSpeed;
             containerEl.style.top = topPos + 'px';
 
-            const basketRect = basket.getBoundingClientRect();
-            const letterRect = containerEl.getBoundingClientRect();
+            const bRect = basket.getBoundingClientRect();
+            const lRect = containerEl.getBoundingClientRect();
 
-            // تعديل مساحة التصادم الفعالة (Padding Tolerant Collision):
-            // نأخذ خصم عتبة (20 بكسل) من الجوانب لضمان أن اللمس حقيقي ومقنع للطفل وليس مجرد حواف شفافة
-            const hitBoxLeft = letterRect.left + 15;
-            const hitBoxRight = letterRect.right - 15;
-            const hitBoxBottom = letterRect.bottom - 5; 
-
+            // منطقة اصطدام دقيقة جداً
             if (
-                hitBoxBottom >= basketRect.top + 15 &&  // الحرف دخل بعمق مناسب داخل السلة
-                hitBoxRight >= basketRect.left &&
-                hitBoxLeft <= basketRect.right &&
-                letterRect.top <= basketRect.bottom
+                lRect.bottom >= bRect.top + 20 && 
+                lRect.right - 15 >= bRect.left &&
+                lRect.left + 15 <= bRect.right &&
+                lRect.top <= bRect.bottom
             ) {
                 if (letterData.type === selectedGameMode) {
                     score += 10;
                     scoreDisplay.innerText = score;
-                    createScoreEffect(letterRect.left, letterRect.top, "+10 ⭐", "#4caf50");
                     containerEl.remove();
                     checkLevelUp();
                 } else {
                     containerEl.remove();
-                    let typeAr = {fatha: 'مفتوحاً', damma: 'مضموماً', kasra: 'مكسوراً', sukun: 'ساكناً'}[letterData.type];
-                    triggerGameOver(`لقد التقطت حرفاً ${typeAr}: (${letterData.char}${letterData.diac}) 😮`);
+                    let types = {fatha:'مفتوحاً', damma:'مضموماً', kasra:'مكسوراً', sukun:'ساكناً'};
+                    triggerGameOver(`التقطت حرفاً ${types[letterData.type]}!`);
                 }
                 return;
             }
 
-            if (topPos > container.offsetHeight - 50) {
+            if (topPos > container.offsetHeight) {
                 containerEl.remove();
             } else {
                 requestAnimationFrame(fall);
@@ -433,74 +386,47 @@
     }
 
     function checkLevelUp() {
-        let targetLevel = Math.floor(score / 50) + 1;
+        let targetLevel = Math.floor(score / 70) + 1;
         if (targetLevel > currentLevel) {
-            if (targetLevel > maxLevels) {
-                triggerWin();
-                return;
-            }
             currentLevel = targetLevel;
-            currentSpeed = startSpeed + (currentLevel - 1) * 0.25; // تقليل تسارع المستويات بشكل طفيف جداً للموازنة
-            levelBadge.innerText = `المستوى: ${currentLevel} 🚀`;
-            levelUpText.innerText = `رائع! وصِلت للمستوى ${currentLevel} ⚡`;
-            levelUpAlert.style.display = 'block';
-            setTimeout(() => { levelUpAlert.style.display = 'none'; }, 1500);
+            currentSpeed = startSpeed + (currentLevel - 1) * 0.7; 
+            showLevelSplash();
         }
     }
 
-    function createScoreEffect(x, y, text, color) {
-        const effect = document.createElement('div');
-        effect.innerText = text;
-        effect.style.position = 'absolute';
-        effect.style.left = (x - container.getBoundingClientRect().left) + 'px';
-        effect.style.top = (y - container.getBoundingClientRect().top) + 'px';
-        effect.style.color = color;
-        effect.style.fontWeight = 'bold';
-        effect.style.fontSize = '25px';
-        container.appendChild(effect);
-        
+    function showLevelSplash() {
+        gameActive = false;
+        clearInterval(letterInterval);
+        document.getElementById('splash-level-text').innerText = `المستوى ${currentLevel}`;
+        levelSplash.style.display = 'flex';
         setTimeout(() => {
-            effect.style.transform = 'translateY(-40px) scale(1.2)';
-            effect.style.opacity = '0';
-        }, 30);
-        setTimeout(() => effect.remove(), 500);
+            levelSplash.style.display = 'none';
+            gameActive = true;
+            let intervalTime = Math.max(700, 1600 - (currentLevel * 60));
+            letterInterval = setInterval(createLetter, intervalTime);
+        }, 2000);
     }
 
     function startGame() {
-        score = 0;
-        currentLevel = 1;
-        currentSpeed = startSpeed;
+        score = 0; currentLevel = 1; currentSpeed = startSpeed;
         gameActive = true;
-        lastXPosition = -1;
         scoreDisplay.innerText = score;
         levelBadge.innerText = "المستوى: 1 🚀";
         gameOverScreen.style.display = 'none';
-        winScreen.style.display = 'none';
-        letterInterval = setInterval(createLetter, 1600); // زيادة مهلة النزول لتفادي تراكم الحروف
+        letterInterval = setInterval(createLetter, 1600);
     }
 
     function triggerGameOver(reason) {
         gameActive = false;
         clearInterval(letterInterval);
-        errorReason.innerText = reason;
-        finalScoreDisplay.innerText = score;
-        finalLevelDisplay.innerText = currentLevel;
+        document.getElementById('error-reason').innerText = reason;
+        document.getElementById('final-score').innerText = score;
         gameOverScreen.style.display = 'flex';
     }
 
-    function triggerWin() {
-        gameActive = false;
-        clearInterval(letterInterval);
-        winScreen.style.display = 'flex';
-    }
-
-    function resetGame() {
-        startGame();
-    }
-
+    function resetGame() { startGame(); }
     function backToMenu() {
         gameOverScreen.style.display = 'none';
-        winScreen.style.display = 'none';
         mainMenu.style.display = 'flex';
     }
 </script>
