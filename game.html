@@ -15,7 +15,7 @@
             margin: 0;
             padding: 0;
             background: linear-gradient(to bottom, #a1c4fd, #c2e9fb);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', Tahoma, sans-serif;
             overflow: hidden;
             user-select: none;
             touch-action: none;
@@ -41,7 +41,6 @@
             z-index: 0;
         }
 
-        /* لوحة البيانات العلوية */
         #header {
             position: relative;
             z-index: 2;
@@ -53,7 +52,6 @@
             font-weight: bold;
             color: #37474f;
             background-color: rgba(255, 255, 255, 0.9);
-            border-bottom: 4px rounded #ffb74d;
             border-radius: 0 0 20px 20px;
             margin: 0 10px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
@@ -64,7 +62,6 @@
             color: white;
             padding: 5px 10px;
             border-radius: 15px;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
         }
 
         #target-box {
@@ -73,24 +70,40 @@
             padding: 6px 15px;
             border-radius: 20px;
             font-size: 18px;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
         }
 
-        /* الحروف المتساقطة - تم تعديل التنسيق لمنع التمدد والغباش */
-        .letter {
+        /* حاوية الحرف المتساقط لمنع التمدد تماماً */
+        .letter-container {
             position: absolute;
-            font-size: 55px;
-            font-weight: bold;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             z-index: 1;
-            cursor: pointer;
-            text-align: center;
-            white-space: nowrap; /* منع النص من الانقسام أو التمدد */
-            line-height: 1;
+            line-height: 0.8;
             filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.15));
-            text-rendering: optimizeLegibility; /* تحسين جودة الخط العربي */
+            width: 70px;
+            height: 90px;
         }
 
-        /* السلة المطورة وتكبير العلامة لتكون واضحة جداً للطفل */
+        /* الحرف الأساسي المعزول */
+        .main-char {
+            font-size: 50px;
+            font-weight: bold;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* الحركة المستقلة تماماً فوق أو تحت الحرف */
+        .diacritic {
+            font-size: 32px;
+            font-weight: bold;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         #basket {
             position: absolute;
             bottom: 40px;
@@ -116,22 +129,19 @@
             top: -35px;
         }
 
-        /* ستايل لوحة الحركة المكبرة على السلة */
         #basket-label {
             background: #fff;
             color: #d32f2f;
-            font-size: 28px;
+            font-size: 32px;
             font-weight: bold;
-            padding: 2px 14px;
+            padding: 0px 14px;
             border-radius: 12px;
             margin-bottom: 6px;
             border: 3px solid #ff9800;
             box-shadow: 0 3px 6px rgba(0,0,0,0.15);
-            text-align: center;
             line-height: 1;
         }
 
-        /* الشاشات والقوائم */
         .overlay-screen {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -143,7 +153,6 @@
             z-index: 10;
         }
 
-        /* أزرار اختيار الحركات الجميلة */
         .mode-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -161,25 +170,22 @@
             border-radius: 20px;
             cursor: pointer;
             box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-            transition: transform 0.2s;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
         }
-        .mode-btn:active { transform: scale(0.95); }
         .fatha-btn { background: linear-gradient(135deg, #ff9800, #ffb74d); }
         .damma-btn { background: linear-gradient(135deg, #2196f3, #64b5f6); }
         .kasra-btn { background: linear-gradient(135deg, #00bcd4, #4dd0e1); }
         .sukun-btn { background: linear-gradient(135deg, #9c27b0, #ba68c8); }
 
         .mode-btn span {
-            font-size: 40px;
+            font-size: 35px;
             margin-top: 5px;
             background: rgba(255,255,255,0.25);
             padding: 0 15px;
             border-radius: 10px;
-            line-height: 1.2;
         }
 
         #level-up-alert {
@@ -192,14 +198,6 @@
             border-radius: 20px;
             text-align: center;
             z-index: 15;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            font-weight: bold;
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes popIn {
-            0% { transform: scale(0.5); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
         }
 
         .btn {
@@ -211,7 +209,6 @@
             font-weight: bold;
             border-radius: 30px;
             cursor: pointer;
-            box-shadow: 0 5px 12px rgba(76,175,80,0.4);
             margin-top: 15px;
         }
     </style>
@@ -244,7 +241,7 @@
             <button class="mode-btn fatha-btn" onclick="selectMode('fatha', 'الفتحة ✨', 'َ')">الفتحة ☀️<span>أَ</span></button>
             <button class="mode-btn damma-btn" onclick="selectMode('damma', 'الضمة ☁️', 'ُ')">الضمة ☁️<span>أُ</span></button>
             <button class="mode-btn kasra-btn" onclick="selectMode('kasra', 'الكسرة 💧', 'ِ')">الكسرة 💧<span>إِ</span></button>
-            <button class="mode-btn sukun-btn" onclick="selectMode('sukun', 'السكون ❄️', 'ْ')">السكون ❄️<span>أَبْ</span></button>
+            <button class="mode-btn sukun-btn" onclick="selectMode('sukun', 'السكون ❄️', 'ْ')">السكون ❄️<span>بْ</span></button>
         </div>
     </div>
 
@@ -253,7 +250,7 @@
         <p id="error-reason" style="font-size: 18px; color: #555; text-align: center; padding:0 20px; margin-bottom: 15px;"></p>
         <h2>المستوى الذي وصلته: <span id="final-level" style="color:#2196f3;">1</span></h2>
         <h3>نقاطك في هذا التحدي: <span id="final-score" style="color:#4caf50;">0</span></h3>
-        <button class="btn" style="background: linear-gradient(45deg, #ff5722, #ff8a65);" onclick="resetGame()">إعادة المحاولة 🔄</button>
+        <button class="btn" style="background: linear-gradient(45deg, #ff5722, #ff8a65 warm);" onclick="resetGame()">إعادة المحاولة 🔄</button>
         <button class="btn" style="background: linear-gradient(45deg, #757575, #9e9e9e);" onclick="backToMenu()">القائمة الرئيسية 🏠</button>
     </div>
 
@@ -293,23 +290,27 @@
     
     let selectedGameMode = 'fatha';
 
-    // تم تعديل بنك الحروف واستخدام نصوص مدمجة تماماً لمنع تشوهات الخطوط على الموبايل
+    // تم فصل الحروف عن التشكيل تماماً برمجياً لضمان ثبات المظهر
     const letterPool = {
         fatha: [
-            { text: "\u0623\u064E", type: "fatha" }, { text: "\u0628\u064E", type: "fatha" }, { text: "\u062A\u064E", type: "fatha" }, { text: "\u062B\u064E", type: "fatha" }, { text: "\u062C\u064E", type: "fatha" }, { text: "\u0622", type: "fatha" },
-            { text: "\u0628\u0650", type: "kasra" }, { text: "\u062A\u0650", type: "kasra" }, { text: "\u062B\u064F", type: "damma" }, { text: "\u062C\u064F", type: "damma" }, { text: "\u0645\u0652", type: "sukun" }
+            { char: "أ", diac: "َ", pos: "top", type: "fatha" }, { char: "ب", diac: "َ", pos: "top", type: "fatha" }, { char: "ت", diac: "َ", pos: "top", type: "fatha" },
+            { char: "ث", diac: "َ", pos: "top", type: "fatha" }, { char: "ج", diac: "َ", pos: "top", type: "fatha" }, { char: "ش", diac: "َ", pos: "top", type: "fatha" },
+            { char: "ب", diac: "ِ", pos: "bottom", type: "kasra" }, { char: "ت", diac: "ِ", pos: "bottom", type: "kasra" }, { char: "ث", diac: "ُ", pos: "top", type: "damma" }, { char: "ج", diac: "ُ", pos: "top", type: "damma" }
         ],
         damma: [
-            { text: "\u0623\u064F", type: "damma" }, { text: "\u0628\u064F", type: "damma" }, { text: "\u062A\u064F", type: "damma" }, { text: "\u062B\u064F", type: "damma" }, { text: "\u062C\u064F", type: "damma" }, { text: "\u062E\u064F", type: "damma" },
-            { text: "\u0628\u064E", type: "fatha" }, { text: "\u062A\u064E", type: "fatha" }, { text: "\u0633\u0650", type: "kasra" }, { text: "\u0645\u0650", type: "kasra" }, { text: "\u0642\u0652", type: "sukun" }
+            { char: "أ", diac: "ُ", pos: "top", type: "damma" }, { char: "ب", diac: "ُ", pos: "top", type: "damma" }, { char: "ت", diac: "ُ", pos: "top", type: "damma" },
+            { char: "ث", diac: "ُ", pos: "top", type: "damma" }, { char: "ج", diac: "ُ", pos: "top", type: "damma" }, { char: "خ", diac: "ُ", pos: "top", type: "damma" },
+            { char: "ب", diac: "َ", pos: "top", type: "fatha" }, { char: "ت", diac: "َ", pos: "top", type: "fatha" }, { char: "س", diac: "ِ", pos: "bottom", type: "kasra" }, { char: "م", diac: "ِ", pos: "bottom", type: "kasra" }
         ],
         kasra: [
-            { text: "\u0625\u0650", type: "kasra" }, { text: "\u0628\u0650", type: "kasra" }, { text: "\u062A\u0650", type: "kasra" }, { text: "\u062B\u0650", type: "kasra" }, { text: "\u062C\u0650", type: "kasra" }, { text: "\u062E\u0650", type: "kasra" },
-            { text: "\u0628\u064E", type: "fatha" }, { text: "\u062C\u064F", type: "damma" }, { text: "\u0634\u064F", type: "damma" }, { text: "\u0633\u064E", type: "fatha" }, { text: "\u0622", type: "fatha" }
+            { char: "إ", diac: "ِ", pos: "bottom", type: "kasra" }, { char: "ب", diac: "ِ", pos: "bottom", type: "kasra" }, { char: "ت", diac: "ِ", pos: "bottom", type: "kasra" },
+            { char: "ث", diac: "ِ", pos: "bottom", type: "kasra" }, { char: "ج", diac: "ِ", pos: "bottom", type: "kasra" }, { char: "خ", diac: "ِ", pos: "bottom", type: "kasra" },
+            { char: "ب", diac: "َ", pos: "top", type: "fatha" }, { char: "ج", diac: "ُ", pos: "top", type: "damma" }, { char: "ش", diac: "ُ", pos: "top", type: "damma" }, { char: "س", diac: "َ", pos: "top", type: "fatha" }
         ],
         sukun: [
-            { text: "أَبْ", type: "sukun" }, { text: "أَتْ", type: "sukun" }, { text: "أَثْ", type: "sukun" }, { text: "مَنْ", type: "sukun" }, { text: "قُمْ", type: "sukun" }, { text: "هَلْ", type: "sukun" },
-            { text: "\u0628\u064E", type: "fatha" }, { text: "\u0628\u0650", type: "kasra" }, { text: "\u0628\u064F", type: "damma" }, { text: "\u062A\u064E", type: "fatha" }
+            { char: "ب", diac: "ْ", pos: "top", type: "sukun" }, { char: "ت", diac: "ْ", pos: "top", type: "sukun" }, { char: "ث", diac: "ْ", pos: "top", type: "sukun" },
+            { char: "م", diac: "ْ", pos: "top", type: "sukun" }, { char: "ن", diac: "ْ", pos: "top", type: "sukun" }, { char: "ل", diac: "ْ", pos: "top", type: "sukun" },
+            { char: "ب", diac: "َ", pos: "top", type: "fatha" }, { char: "ب", diac: "ِ", pos: "bottom", type: "kasra" }, { char: "ب", diac: "ُ", pos: "top", type: "damma" }
         ]
     };
 
@@ -341,30 +342,47 @@
         const activePool = letterPool[selectedGameMode];
         const letterData = activePool[Math.floor(Math.random() * activePool.length)];
         
-        const letterEl = document.createElement('div');
-        letterEl.classList.add('letter');
-        letterEl.innerText = letterData.text;
-        letterEl.style.color = colors[Math.floor(Math.random() * colors.length)];
+        // بناء هيكل الحرف المنفصل تماماً هندسياً
+        const containerEl = document.createElement('div');
+        containerEl.classList.add('letter-container');
+        containerEl.style.color = colors[Math.floor(Math.random() * colors.length)];
+
+        const diacriticEl = document.createElement('div');
+        diacriticEl.classList.add('diacritic');
+        diacriticEl.innerText = letterData.diac;
+
+        const charEl = document.createElement('div');
+        charEl.classList.add('main-char');
+        charEl.innerText = letterData.char;
+
+        // ترتيب الحركات هندسياً (فوق الحرف أو تحته) لمنع المتصفح من اللعب بالخطوط
+        if (letterData.pos === "top") {
+            containerEl.appendChild(diacriticEl);
+            containerEl.appendChild(charEl);
+        } else {
+            containerEl.appendChild(charEl);
+            containerEl.appendChild(diacriticEl);
+        }
 
         const containerWidth = container.offsetWidth;
-        letterEl.style.left = Math.random() * (containerWidth - 80) + 15 + 'px';
-        letterEl.style.top = '70px';
-        container.appendChild(letterEl);
+        containerEl.style.left = Math.random() * (containerWidth - 90) + 15 + 'px';
+        containerEl.style.top = '70px';
+        container.appendChild(containerEl);
 
         let topPos = 70;
         const fallSpeed = currentSpeed + (Math.random() * 0.3);
 
         function fall() {
             if (!gameActive) {
-                letterEl.remove();
+                containerEl.remove();
                 return;
             }
 
             topPos += fallSpeed;
-            letterEl.style.top = topPos + 'px';
+            containerEl.style.top = topPos + 'px';
 
             const basketRect = basket.getBoundingClientRect();
-            const letterRect = letterEl.getBoundingClientRect();
+            const letterRect = containerEl.getBoundingClientRect();
 
             if (
                 letterRect.bottom >= basketRect.top &&
@@ -376,18 +394,18 @@
                     score += 10;
                     scoreDisplay.innerText = score;
                     createScoreEffect(letterRect.left, letterRect.top, "+10 ⭐", "#4caf50");
-                    letterEl.remove();
+                    containerEl.remove();
                     checkLevelUp();
                 } else {
-                    letterEl.remove();
+                    containerEl.remove();
                     let typeAr = {fatha: 'مفتوحاً', damma: 'مضموماً', kasra: 'مكسوراً', sukun: 'ساكناً'}[letterData.type];
-                    triggerGameOver(`لقد التقطت حرفاً ${typeAr}: (${letterData.text}) 😮`);
+                    triggerGameOver(`لقد التقطت حرفاً ${typeAr}: (${letterData.char}${letterData.diac}) 😮`);
                 }
                 return;
             }
 
             if (topPos > container.offsetHeight - 50) {
-                letterEl.remove();
+                containerEl.remove();
             } else {
                 requestAnimationFrame(fall);
             }
@@ -397,18 +415,14 @@
 
     function checkLevelUp() {
         let targetLevel = Math.floor(score / 50) + 1;
-        
         if (targetLevel > currentLevel) {
             if (targetLevel > maxLevels) {
                 triggerWin();
                 return;
             }
-            
             currentLevel = targetLevel;
             currentSpeed = startSpeed + (currentLevel - 1) * 0.30;
-            
             levelBadge.innerText = `المستوى: ${currentLevel} 🚀`;
-            
             levelUpText.innerText = `رائع! وصِلت للمستوى ${currentLevel} ⚡`;
             levelUpAlert.style.display = 'block';
             setTimeout(() => { levelUpAlert.style.display = 'none'; }, 1500);
@@ -438,24 +452,19 @@
         currentLevel = 1;
         currentSpeed = startSpeed;
         gameActive = true;
-        
         scoreDisplay.innerText = score;
         levelBadge.innerText = "المستوى: 1 🚀";
-        
         gameOverScreen.style.display = 'none';
         winScreen.style.display = 'none';
-        
         letterInterval = setInterval(createLetter, 1500);
     }
 
     function triggerGameOver(reason) {
         gameActive = false;
         clearInterval(letterInterval);
-        
         errorReason.innerText = reason;
         finalScoreDisplay.innerText = score;
         finalLevelDisplay.innerText = currentLevel;
-        
         gameOverScreen.style.display = 'flex';
     }
 
