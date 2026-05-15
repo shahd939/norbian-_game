@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>أكاديمية تبيان لتعليم القرآن 🎈</title>
+
+    <!-- خط عربي ممتاز للتشكيل -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --primary-color: #ff6f91;
@@ -19,7 +23,7 @@
             margin: 0;
             padding: 0;
             background: linear-gradient(to bottom, #a1c4fd, #c2e9fb);
-            font-family: 'Arial', Tahoma, sans-serif;
+            font-family: 'Amiri', serif;
             overflow: hidden;
             user-select: none;
             touch-action: none;
@@ -68,25 +72,26 @@
             font-size: 16px;
         }
 
-        /* حاوية الحرف المتساقط */
+        /* الحروف المتساقطة */
         .letter-container {
             position: absolute;
-            display: inline-flex;
+            display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 1;
             background: rgba(255, 255, 255, 0.95);
             border-radius: 50%;
-            width: 75px;
-            height: 75px;
+            width: 80px;
+            height: 80px;
             border: 3px solid #fff;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             pointer-events: none;
+            padding-top: 6px;
         }
 
         .main-char {
-            font-size: 30px;
+            font-size: 38px;
             font-weight: bold;
             color: #333;
             line-height: 1;
@@ -96,11 +101,12 @@
         .diacritic {
             font-size: 32px;
             font-weight: bold;
-            height: 20px;
+            color: #e53935;
+            line-height: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            line-height: 0;
+            z-index: 2;
         }
 
         /* السلة */
@@ -128,15 +134,14 @@
             top: -35px;
         }
 
-        /* الدائرة البيضاء في السلة - تم تحسينها لعرض التشكيل مع حرف كـ وزن بصري */
         #basket-label {
             background: #fff;
             color: #d32f2f;
-            font-size: 32px; /* تصغير نسبي ليتسع الحرف التوضيحي والحركة معاً */
+            font-size: 34px;
             font-weight: bold;
             width: 60px;
             height: 60px;
-            border-radius: 50%; 
+            border-radius: 50%;
             border: 3px solid #ff9800;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             margin-top: 15px;
@@ -150,7 +155,10 @@
 
         .overlay-screen {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(255, 255, 255, 0.98);
             display: flex;
             flex-direction: column;
@@ -162,7 +170,10 @@
         #level-splash {
             display: none;
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(77, 173, 247, 0.95);
             z-index: 200;
             flex-direction: column;
@@ -190,7 +201,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            font-family: 'Amiri', serif;
         }
+
         .fatha-btn { background: #ff9800; }
         .damma-btn { background: #2196f3; }
         .kasra-btn { background: #00bcd4; }
@@ -205,12 +218,14 @@
             font-weight: bold;
             border-radius: 25px;
             margin-top: 10px;
+            font-family: 'Amiri', serif;
         }
     </style>
 </head>
 <body>
 
 <div id="game-container">
+
     <div id="header">
         <div>النقاط: <span id="score" style="color: #e91e63;">0</span> 🌟</div>
         <div id="level-badge" class="badge">المستوى: 1 🚀</div>
@@ -228,207 +243,370 @@
     </div>
 
     <div id="main-menu" class="overlay-screen">
-        <h1 style="color: #ff6f91; font-size: 28px; text-align:center;">أكاديمية تبيان لتعليم القرآن</h1>
+        <h1 style="color: #ff6f91; font-size: 28px; text-align:center;">
+            أكاديمية تبيان لتعليم القرآن
+        </h1>
+
         <p>اختر الحركة لصيدها:</p>
+
         <div class="mode-grid">
-            <button class="mode-btn fatha-btn" onclick="selectMode('fatha', 'الفتحة ✨', 'ـَ')">الفتحة ☀️<span>أَ</span></button>
-            <button class="mode-btn damma-btn" onclick="selectMode('damma', 'الضمة ☁️', 'ـُ')">الضمة ☁️<span>أُ</span></button>
-            <button class="mode-btn kasra-btn" onclick="selectMode('kasra', 'الكسرة 💧', 'ـِ')">الكسرة 💧<span>إِ</span></button>
-            <button class="mode-btn sukun-btn" onclick="selectMode('sukun', 'السكون ❄️', 'ـْ')">السكون ❄️<span>بْ</span></button>
+            <button class="mode-btn fatha-btn"
+                onclick="selectMode('fatha', 'الفتحة ✨', 'ـَ')">
+                الفتحة ☀️
+                <span>أَ</span>
+            </button>
+
+            <button class="mode-btn damma-btn"
+                onclick="selectMode('damma', 'الضمة ☁️', 'ـُ')">
+                الضمة ☁️
+                <span>أُ</span>
+            </button>
+
+            <button class="mode-btn kasra-btn"
+                onclick="selectMode('kasra', 'الكسرة 💧', 'ـِ')">
+                الكسرة 💧
+                <span>إِ</span>
+            </button>
+
+            <button class="mode-btn sukun-btn"
+                onclick="selectMode('sukun', 'السكون ❄️', 'ـْ')">
+                السكون ❄️
+                <span>بْ</span>
+            </button>
         </div>
     </div>
 
-    <div id="game-over-screen" class="overlay-screen" style="display: none;">
-        <h1 style="color: #f44336;">حاول مرة أخرى! 💔</h1>
-        <p id="error-reason" style="font-size: 18px; text-align: center; padding: 0 20px;"></p>
+    <div id="game-over-screen" class="overlay-screen" style="display:none;">
+        <h1 style="color:#f44336;">حاول مرة أخرى! 💔</h1>
+
+        <p id="error-reason"
+           style="font-size:18px; text-align:center; padding:0 20px;">
+        </p>
+
         <h2>النقاط: <span id="final-score">0</span></h2>
-        <button class="btn" onclick="resetGame()">إعادة المحاولة 🔄</button>
-        <button class="btn" style="background: #9e9e9e;" onclick="backToMenu()">القائمة الرئيسية 🏠</button>
+
+        <button class="btn" onclick="resetGame()">
+            إعادة المحاولة 🔄
+        </button>
+
+        <button class="btn"
+                style="background:#9e9e9e;"
+                onclick="backToMenu()">
+            القائمة الرئيسية 🏠
+        </button>
     </div>
+
 </div>
 
 <script>
-    const container = document.getElementById('game-container');
-    const basket = document.getElementById('basket');
-    const basketLabel = document.getElementById('basket-label');
-    const scoreDisplay = document.getElementById('score');
-    const levelBadge = document.getElementById('level-badge');
-    const mainMenu = document.getElementById('main-menu');
-    const gameOverScreen = document.getElementById('game-over-screen');
-    const levelSplash = document.getElementById('level-splash');
-    
-    let score = 0;
-    let currentLevel = 1;
-    let startSpeed = 2.0;
-    let currentSpeed = startSpeed;
-    let gameActive = false;
-    let letterInterval;
-    let lastXPosition = -1;
-    let selectedGameMode = 'fatha';
 
-    const letterPool = {
-        fatha: [
-            { char: "أ", diac: "َ", pos: "top", type: "fatha" }, { char: "ب", diac: "َ", pos: "top", type: "fatha" },
-            { char: "س", diac: "ِ", pos: "bottom", type: "kasra" }, { char: "م", diac: "ُ", pos: "top", type: "damma" }
-        ],
-        damma: [
-            { char: "أ", diac: "ُ", pos: "top", type: "damma" }, { char: "ت", diac: "ُ", pos: "top", type: "damma" },
-            { char: "ر", diac: "َ", pos: "top", type: "fatha" }, { char: "ج", diac: "ِ", pos: "bottom", type: "kasra" }
-        ],
-        kasra: [
-            { char: "إ", diac: "ِ", pos: "bottom", type: "kasra" }, { char: "ب", diac: "ِ", pos: "bottom", type: "kasra" },
-            { char: "د", diac: "َ", pos: "top", type: "fatha" }, { char: "ف", diac: "ُ", pos: "top", type: "damma" }
-        ],
-        sukun: [
-            { char: "ب", diac: "ْ", pos: "top", type: "sukun" }, { char: "م", diac: "ْ", pos: "top", type: "sukun" },
-            { char: "أ", diac: "َ", pos: "top", type: "fatha" }, { char: "ك", diac: "ُ", pos: "top", type: "damma" }
-        ]
-    };
+const container = document.getElementById('game-container');
+const basket = document.getElementById('basket');
+const basketLabel = document.getElementById('basket-label');
+const scoreDisplay = document.getElementById('score');
+const levelBadge = document.getElementById('level-badge');
+const mainMenu = document.getElementById('main-menu');
+const gameOverScreen = document.getElementById('game-over-screen');
+const levelSplash = document.getElementById('level-splash');
 
-    window.addEventListener('mousemove', (e) => { moveBasket(e.clientX); });
-    window.addEventListener('touchmove', (e) => { if(e.touches[0]) moveBasket(e.touches[0].clientX); }, { passive: true });
+let score = 0;
+let currentLevel = 1;
+let startSpeed = 2.0;
+let currentSpeed = startSpeed;
+let gameActive = false;
+let letterInterval;
+let lastXPosition = -1;
+let selectedGameMode = 'fatha';
 
-    function moveBasket(xPos) {
-        if (!gameActive) return;
-        const rect = container.getBoundingClientRect();
-        let relativeX = xPos - rect.left;
-        let halfBasket = basket.offsetWidth / 2;
-        if (relativeX < halfBasket) relativeX = halfBasket;
-        if (relativeX > rect.width - halfBasket) relativeX = rect.width - halfBasket;
-        basket.style.left = relativeX + 'px';
+const letterPool = {
+
+    fatha: [
+        { char: "أ", diac: "َ", pos: "top", type: "fatha" },
+        { char: "ب", diac: "َ", pos: "top", type: "fatha" },
+        { char: "س", diac: "ِ", pos: "bottom", type: "kasra" },
+        { char: "م", diac: "ُ", pos: "top", type: "damma" }
+    ],
+
+    damma: [
+        { char: "أ", diac: "ُ", pos: "top", type: "damma" },
+        { char: "ت", diac: "ُ", pos: "top", type: "damma" },
+        { char: "ر", diac: "َ", pos: "top", type: "fatha" },
+        { char: "ج", diac: "ِ", pos: "bottom", type: "kasra" }
+    ],
+
+    kasra: [
+        { char: "إ", diac: "ِ", pos: "bottom", type: "kasra" },
+        { char: "ب", diac: "ِ", pos: "bottom", type: "kasra" },
+        { char: "د", diac: "َ", pos: "top", type: "fatha" },
+        { char: "ف", diac: "ُ", pos: "top", type: "damma" }
+    ],
+
+    sukun: [
+        { char: "ب", diac: "ْ", pos: "top", type: "sukun" },
+        { char: "م", diac: "ْ", pos: "top", type: "sukun" },
+        { char: "أ", diac: "َ", pos: "top", type: "fatha" },
+        { char: "ك", diac: "ُ", pos: "top", type: "damma" }
+    ]
+};
+
+window.addEventListener('mousemove', (e) => {
+    moveBasket(e.clientX);
+});
+
+window.addEventListener('touchmove', (e) => {
+    if (e.touches[0]) moveBasket(e.touches[0].clientX);
+}, { passive: true });
+
+function moveBasket(xPos) {
+
+    if (!gameActive) return;
+
+    const rect = container.getBoundingClientRect();
+
+    let relativeX = xPos - rect.left;
+
+    let halfBasket = basket.offsetWidth / 2;
+
+    if (relativeX < halfBasket)
+        relativeX = halfBasket;
+
+    if (relativeX > rect.width - halfBasket)
+        relativeX = rect.width - halfBasket;
+
+    basket.style.left = relativeX + 'px';
+}
+
+function selectMode(mode, targetText, basketText) {
+
+    selectedGameMode = mode;
+
+    basketLabel.innerText = basketText;
+
+    document.getElementById('target-box').innerText =
+        `المطلوب: ${targetText}`;
+
+    mainMenu.style.display = 'none';
+
+    startGame();
+}
+
+function createLetter() {
+
+    if (!gameActive) return;
+
+    const activePool = letterPool[selectedGameMode];
+
+    const letterData =
+        activePool[Math.floor(Math.random() * activePool.length)];
+
+    const containerEl = document.createElement('div');
+    containerEl.classList.add('letter-container');
+
+    const diacriticEl = document.createElement('div');
+    diacriticEl.classList.add('diacritic');
+    diacriticEl.innerText = letterData.diac;
+
+    const charEl = document.createElement('div');
+    charEl.classList.add('main-char');
+    charEl.innerText = letterData.char;
+
+    if (letterData.pos === "top") {
+
+        diacriticEl.style.marginBottom = "-10px";
+
+        containerEl.appendChild(diacriticEl);
+        containerEl.appendChild(charEl);
+
+    } else {
+
+        diacriticEl.style.marginTop = "-10px";
+
+        containerEl.appendChild(charEl);
+        containerEl.appendChild(diacriticEl);
     }
 
-    function selectMode(mode, targetText, basketText) {
-        selectedGameMode = mode;
-        basketLabel.innerText = basketText;
-        document.getElementById('target-box').innerText = `المطلوب: ${targetText}`;
-        mainMenu.style.display = 'none';
-        startGame();
+    const margin = 45;
+
+    const availableWidth =
+        container.offsetWidth - (margin * 2);
+
+    let randomX;
+
+    do {
+        randomX = Math.random() * availableWidth + margin;
     }
 
-    function createLetter() {
-        if (!gameActive) return;
+    while (
+        lastXPosition !== -1 &&
+        Math.abs(randomX - lastXPosition) < 80
+    );
 
-        const activePool = letterPool[selectedGameMode];
-        const letterData = activePool[Math.floor(Math.random() * activePool.length)];
-        
-        const containerEl = document.createElement('div');
-        containerEl.classList.add('letter-container');
-        
-        const diacriticEl = document.createElement('div');
-        diacriticEl.classList.add('diacritic');
-        diacriticEl.innerText = letterData.diac;
+    lastXPosition = randomX;
 
-        const charEl = document.createElement('div');
-        charEl.classList.add('main-char');
-        charEl.innerText = letterData.char;
+    containerEl.style.left = randomX + 'px';
+    containerEl.style.transform = 'translateX(-50%)';
+    containerEl.style.top = '-80px';
 
-        // ميزان الحروف المتساقطة لتعمل بدون تداخل
-        if (letterData.pos === "top") {
-            containerEl.appendChild(diacriticEl);
-            containerEl.appendChild(charEl);
-        } else {
-            containerEl.appendChild(charEl);
-            containerEl.appendChild(diacriticEl);
+    container.appendChild(containerEl);
+
+    let topPos = -80;
+
+    const fallSpeed =
+        currentSpeed + (Math.random() * 0.5);
+
+    function fall() {
+
+        if (!gameActive) {
+            containerEl.remove();
+            return;
         }
 
-        const margin = 45;
-        const availableWidth = container.offsetWidth - (margin * 2);
-        let randomX;
-        
-        do {
-            randomX = Math.random() * availableWidth + margin;
-        } while (lastXPosition !== -1 && Math.abs(randomX - lastXPosition) < 80);
-        
-        lastXPosition = randomX;
-        containerEl.style.left = randomX + 'px';
-        containerEl.style.transform = 'translateX(-50%)';
-        containerEl.style.top = '-80px';
-        container.appendChild(containerEl);
+        topPos += fallSpeed;
 
-        let topPos = -80;
-        const fallSpeed = currentSpeed + (Math.random() * 0.5);
+        containerEl.style.top = topPos + 'px';
 
-        function fall() {
-            if (!gameActive) { containerEl.remove(); return; }
-            topPos += fallSpeed;
-            containerEl.style.top = topPos + 'px';
+        const bRect = basket.getBoundingClientRect();
+        const lRect = containerEl.getBoundingClientRect();
 
-            const bRect = basket.getBoundingClientRect();
-            const lRect = containerEl.getBoundingClientRect();
+        if (
+            lRect.bottom >= bRect.top + 20 &&
+            lRect.right - 15 >= bRect.left &&
+            lRect.left + 15 <= bRect.right &&
+            lRect.top <= bRect.bottom
+        ) {
 
-            if (
-                lRect.bottom >= bRect.top + 20 && 
-                lRect.right - 15 >= bRect.left &&
-                lRect.left + 15 <= bRect.right &&
-                lRect.top <= bRect.bottom
-            ) {
-                if (letterData.type === selectedGameMode) {
-                    score += 10;
-                    scoreDisplay.innerText = score;
-                    containerEl.remove();
-                    checkLevelUp();
-                } else {
-                    containerEl.remove();
-                    let types = {fatha:'مفتوحاً', damma:'مضموماً', kasra:'مكسوراً', sukun:'ساكناً'};
-                    triggerGameOver(`التقطت حرفاً ${types[letterData.type]}!`);
-                }
-                return;
-            }
+            if (letterData.type === selectedGameMode) {
 
-            if (topPos > container.offsetHeight) {
+                score += 10;
+
+                scoreDisplay.innerText = score;
+
                 containerEl.remove();
+
+                checkLevelUp();
+
             } else {
-                requestAnimationFrame(fall);
+
+                containerEl.remove();
+
+                let types = {
+                    fatha:'مفتوحاً',
+                    damma:'مضموماً',
+                    kasra:'مكسوراً',
+                    sukun:'ساكناً'
+                };
+
+                triggerGameOver(
+                    `التقطت حرفاً ${types[letterData.type]}!`
+                );
             }
+
+            return;
         }
-        requestAnimationFrame(fall);
-    }
 
-    function checkLevelUp() {
-        let targetLevel = Math.floor(score / 70) + 1;
-        if (targetLevel > currentLevel) {
-            currentLevel = targetLevel;
-            currentSpeed = startSpeed + (currentLevel - 1) * 0.6; 
-            showLevelSplash();
+        if (topPos > container.offsetHeight) {
+
+            containerEl.remove();
+
+        } else {
+
+            requestAnimationFrame(fall);
         }
     }
 
-    function showLevelSplash() {
-        gameActive = false;
-        clearInterval(letterInterval);
-        document.getElementById('splash-level-text').innerText = `المستوى ${currentLevel}`;
-        levelSplash.style.display = 'flex';
-        setTimeout(() => {
-            levelSplash.style.display = 'none';
-            gameActive = true;
-            let intervalTime = Math.max(700, 1600 - (currentLevel * 60));
-            letterInterval = setInterval(createLetter, intervalTime);
-        }, 2000);
-    }
+    requestAnimationFrame(fall);
+}
 
-    function startGame() {
-        score = 0; currentLevel = 1; currentSpeed = startSpeed;
+function checkLevelUp() {
+
+    let targetLevel =
+        Math.floor(score / 70) + 1;
+
+    if (targetLevel > currentLevel) {
+
+        currentLevel = targetLevel;
+
+        currentSpeed =
+            startSpeed + (currentLevel - 1) * 0.6;
+
+        levelBadge.innerText =
+            `المستوى: ${currentLevel} 🚀`;
+
+        showLevelSplash();
+    }
+}
+
+function showLevelSplash() {
+
+    gameActive = false;
+
+    clearInterval(letterInterval);
+
+    document.getElementById('splash-level-text').innerText =
+        `المستوى ${currentLevel}`;
+
+    levelSplash.style.display = 'flex';
+
+    setTimeout(() => {
+
+        levelSplash.style.display = 'none';
+
         gameActive = true;
-        scoreDisplay.innerText = score;
-        levelBadge.innerText = "المستوى: 1 🚀";
-        gameOverScreen.style.display = 'none';
-        letterInterval = setInterval(createLetter, 1600);
-    }
 
-    function triggerGameOver(reason) {
-        gameActive = false;
-        clearInterval(letterInterval);
-        document.getElementById('error-reason').innerText = reason;
-        document.getElementById('final-score').innerText = score;
-        gameOverScreen.style.display = 'flex';
-    }
+        let intervalTime =
+            Math.max(700, 1600 - (currentLevel * 60));
 
-    function resetGame() { startGame(); }
-    function backToMenu() {
-        gameOverScreen.style.display = 'none';
-        mainMenu.style.display = 'flex';
-    }
+        letterInterval =
+            setInterval(createLetter, intervalTime);
+
+    }, 2000);
+}
+
+function startGame() {
+
+    score = 0;
+
+    currentLevel = 1;
+
+    currentSpeed = startSpeed;
+
+    gameActive = true;
+
+    scoreDisplay.innerText = score;
+
+    levelBadge.innerText = "المستوى: 1 🚀";
+
+    gameOverScreen.style.display = 'none';
+
+    clearInterval(letterInterval);
+
+    letterInterval = setInterval(createLetter, 1600);
+}
+
+function triggerGameOver(reason) {
+
+    gameActive = false;
+
+    clearInterval(letterInterval);
+
+    document.getElementById('error-reason').innerText = reason;
+
+    document.getElementById('final-score').innerText = score;
+
+    gameOverScreen.style.display = 'flex';
+}
+
+function resetGame() {
+    startGame();
+}
+
+function backToMenu() {
+
+    gameOverScreen.style.display = 'none';
+
+    mainMenu.style.display = 'flex';
+}
+
 </script>
 
 </body>
