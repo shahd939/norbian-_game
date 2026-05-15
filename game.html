@@ -109,8 +109,8 @@
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            width: 100px;
-            height: 75px;
+            width: 110px;
+            height: 80px;
             background: linear-gradient(to bottom, #a1887f, #8d6e63);
             border-radius: 5px 5px 35px 35px;
             border: 4px solid #5d4037;
@@ -128,44 +128,24 @@
             top: -35px;
         }
 
-        /* الدائرة البيضاء على السلة مع دعم التموضع المطلق للتشكيل */
+        /* الدائرة البيضاء في السلة - تم تحسينها لعرض التشكيل مع حرف كـ وزن بصري */
         #basket-label {
             background: #fff;
             color: #d32f2f;
-            font-size: 48px; 
+            font-size: 32px; /* تصغير نسبي ليتسع الحرف التوضيحي والحركة معاً */
             font-weight: bold;
-            width: 55px;
-            height: 55px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%; 
             border: 3px solid #ff9800;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            margin-top: 10px;
+            margin-top: 15px;
             z-index: 6;
-            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        /* فئات مخصصة لضبط مكان كل حركة داخل دائرة السلة على الموبايل */
-        #basket-label.pos-fatha {
-            padding-bottom: 0px;
-            line-height: 45px;
-        }
-        
-        #basket-label.pos-damma {
-            padding-bottom: 5px;
-            line-height: 45px;
-        }
-
-        #basket-label.pos-kasra {
-            padding-bottom: 26px; /* رفع الكسرة لأعلى لتدخل الدائرة */
-            line-height: 0;
-        }
-
-        #basket-label.pos-sukun {
-            padding-bottom: 10px;
-            line-height: 45px;
+            text-align: center;
+            line-height: 1;
         }
 
         .overlay-screen {
@@ -238,7 +218,7 @@
     </div>
 
     <div id="basket">
-        <div id="basket-label" class="pos-fatha">َ</div>
+        <div id="basket-label">ـَ</div>
     </div>
 
     <div id="level-splash">
@@ -251,10 +231,10 @@
         <h1 style="color: #ff6f91; font-size: 28px; text-align:center;">أكاديمية تبيان لتعليم القرآن</h1>
         <p>اختر الحركة لصيدها:</p>
         <div class="mode-grid">
-            <button class="mode-btn fatha-btn" onclick="selectMode('fatha', 'الفتحة ✨', 'َ')">الفتحة ☀️<span>أَ</span></button>
-            <button class="mode-btn damma-btn" onclick="selectMode('damma', 'الضمة ☁️', 'ُ')">الضمة ☁️<span>أُ</span></button>
-            <button class="mode-btn kasra-btn" onclick="selectMode('kasra', 'الكسرة 💧', 'ِ')">الكسرة 💧<span>إِ</span></button>
-            <button class="mode-btn sukun-btn" onclick="selectMode('sukun', 'السكون ❄️', 'ْ')">السكون ❄️<span>بْ</span></button>
+            <button class="mode-btn fatha-btn" onclick="selectMode('fatha', 'الفتحة ✨', 'ـَ')">الفتحة ☀️<span>أَ</span></button>
+            <button class="mode-btn damma-btn" onclick="selectMode('damma', 'الضمة ☁️', 'ـُ')">الضمة ☁️<span>أُ</span></button>
+            <button class="mode-btn kasra-btn" onclick="selectMode('kasra', 'الكسرة 💧', 'ـِ')">الكسرة 💧<span>إِ</span></button>
+            <button class="mode-btn sukun-btn" onclick="selectMode('sukun', 'السكون ❄️', 'ـْ')">السكون ❄️<span>بْ</span></button>
         </div>
     </div>
 
@@ -321,11 +301,6 @@
     function selectMode(mode, targetText, basketText) {
         selectedGameMode = mode;
         basketLabel.innerText = basketText;
-        
-        // مسح الفئات القديمة وتعيين الفئة المناسبة للحركة الحالية لتظهر في السنتر تماماً
-        basketLabel.className = ''; 
-        basketLabel.classList.add(`pos-${mode}`);
-
         document.getElementById('target-box').innerText = `المطلوب: ${targetText}`;
         mainMenu.style.display = 'none';
         startGame();
@@ -348,14 +323,11 @@
         charEl.classList.add('main-char');
         charEl.innerText = letterData.char;
 
-        // تعديل التموضع الداخلي للحروف المتساقطة لضمان سنترتها في الموبايل
+        // ميزان الحروف المتساقطة لتعمل بدون تداخل
         if (letterData.pos === "top") {
-            diacriticEl.style.marginTop = "0px";
             containerEl.appendChild(diacriticEl);
             containerEl.appendChild(charEl);
         } else {
-            // الكسرة تحت الحرف
-            diacriticEl.style.marginTop = "-15px"; 
             containerEl.appendChild(charEl);
             containerEl.appendChild(diacriticEl);
         }
