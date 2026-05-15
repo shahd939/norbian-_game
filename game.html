@@ -76,14 +76,18 @@
             box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
         }
 
-        /* الحروف المتساقطة */
+        /* الحروف المتساقطة - تم تعديل التنسيق لمنع التمدد والغباش */
         .letter {
             position: absolute;
             font-size: 55px;
             font-weight: bold;
             z-index: 1;
             cursor: pointer;
-            filter: drop-shadow(3px 5px 4px rgba(0,0,0,0.15));
+            text-align: center;
+            white-space: nowrap; /* منع النص من الانقسام أو التمدد */
+            line-height: 1;
+            filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.15));
+            text-rendering: optimizeLegibility; /* تحسين جودة الخط العربي */
         }
 
         /* السلة المطورة وتكبير العلامة لتكون واضحة جداً للطفل */
@@ -116,14 +120,15 @@
         #basket-label {
             background: #fff;
             color: #d32f2f;
-            font-size: 26px; /* تكبير الخط جداً للطفل */
+            font-size: 28px;
             font-weight: bold;
-            padding: 4px 12px;
+            padding: 2px 14px;
             border-radius: 12px;
             margin-bottom: 6px;
             border: 3px solid #ff9800;
             box-shadow: 0 3px 6px rgba(0,0,0,0.15);
             text-align: center;
+            line-height: 1;
         }
 
         /* الشاشات والقوائم */
@@ -169,11 +174,12 @@
         .sukun-btn { background: linear-gradient(135deg, #9c27b0, #ba68c8); }
 
         .mode-btn span {
-            font-size: 40px; /* حجم خط الحرف الاسترشادي */
+            font-size: 40px;
             margin-top: 5px;
             background: rgba(255,255,255,0.25);
             padding: 0 15px;
             border-radius: 10px;
+            line-height: 1.2;
         }
 
         #level-up-alert {
@@ -223,7 +229,7 @@
     </div>
 
     <div id="basket">
-        <div id="basket-label">ـَ</div>
+        <div id="basket-label">َ</div>
     </div>
 
     <div id="level-up-alert">
@@ -235,10 +241,10 @@
         <p style="font-size: 16px; color: #666; margin: 0;">اختر الحركة التي تريد التدرب عليها وصيدها:</p>
         
         <div class="mode-grid">
-            <button class="mode-btn fatha-btn" onclick="selectMode('fatha', 'الفتحة ✨', 'ـَ')">الفتحة ☀️<span>أَ</span></button>
-            <button class="mode-btn damma-btn" onclick="selectMode('damma', 'الضمة ☁️', 'ـُ')">الضمة ☁️<span>أُ</span></button>
-            <button class="mode-btn kasra-btn" onclick="selectMode('kasra', 'الكسرة 💧', 'ـِ')">الكسرة 💧<span>إِ</span></button>
-            <button class="mode-btn sukun-btn" onclick="selectMode('sukun', 'السكون ❄️', 'ـْ')">السكون ❄️<span>أَبْ</span></button>
+            <button class="mode-btn fatha-btn" onclick="selectMode('fatha', 'الفتحة ✨', 'َ')">الفتحة ☀️<span>أَ</span></button>
+            <button class="mode-btn damma-btn" onclick="selectMode('damma', 'الضمة ☁️', 'ُ')">الضمة ☁️<span>أُ</span></button>
+            <button class="mode-btn kasra-btn" onclick="selectMode('kasra', 'الكسرة 💧', 'ِ')">الكسرة 💧<span>إِ</span></button>
+            <button class="mode-btn sukun-btn" onclick="selectMode('sukun', 'السكون ❄️', 'ْ')">السكون ❄️<span>أَبْ</span></button>
         </div>
     </div>
 
@@ -287,22 +293,23 @@
     
     let selectedGameMode = 'fatha';
 
+    // تم تعديل بنك الحروف واستخدام نصوص مدمجة تماماً لمنع تشوهات الخطوط على الموبايل
     const letterPool = {
         fatha: [
-            { text: "أَ", type: "fatha" }, { text: "بَ", type: "fatha" }, { text: "تَ", type: "fatha" }, { text: "ثَ", type: "fatha" }, { text: "جَ", type: "fatha" }, { text: "دَ", type: "fatha" },
-            { text: "بِ", type: "kasra" }, { text: "تِ", type: "kasra" }, { text: "ثُ", type: "damma" }, { text: "جُ", type: "damma" }, { text: "مْ", type: "sukun" }
+            { text: "\u0623\u064E", type: "fatha" }, { text: "\u0628\u064E", type: "fatha" }, { text: "\u062A\u064E", type: "fatha" }, { text: "\u062B\u064E", type: "fatha" }, { text: "\u062C\u064E", type: "fatha" }, { text: "\u0622", type: "fatha" },
+            { text: "\u0628\u0650", type: "kasra" }, { text: "\u062A\u0650", type: "kasra" }, { text: "\u062B\u064F", type: "damma" }, { text: "\u062C\u064F", type: "damma" }, { text: "\u0645\u0652", type: "sukun" }
         ],
         damma: [
-            { text: "أُ", type: "damma" }, { text: "بُ", type: "damma" }, { text: "تُ", type: "damma" }, { text: "ثُ", type: "damma" }, { text: "جُ", type: "damma" }, { text: "خُ", type: "damma" },
-            { text: "بَ", type: "fatha" }, { text: "تَ", type: "fatha" }, { text: "سِ", type: "kasra" }, { text: "مِ", type: "kasra" }, { text: "قْ", type: "sukun" }
+            { text: "\u0623\u064F", type: "damma" }, { text: "\u0628\u064F", type: "damma" }, { text: "\u062A\u064F", type: "damma" }, { text: "\u062B\u064F", type: "damma" }, { text: "\u062C\u064F", type: "damma" }, { text: "\u062E\u064F", type: "damma" },
+            { text: "\u0628\u064E", type: "fatha" }, { text: "\u062A\u064E", type: "fatha" }, { text: "\u0633\u0650", type: "kasra" }, { text: "\u0645\u0650", type: "kasra" }, { text: "\u0642\u0652", type: "sukun" }
         ],
         kasra: [
-            { text: "إِ", type: "kasra" }, { text: "بِ", type: "kasra" }, { text: "تِ", type: "kasra" }, { text: "ثِ", type: "kasra" }, { text: "جِ", type: "kasra" }, { text: "خِ", type: "kasra" },
-            { text: "بَ", type: "fatha" }, { text: "جُ", type: "damma" }, { text: "شُ", type: "damma" }, { text: "سَ", type: "fatha" }, { text: "دْ", type: "sukun" }
+            { text: "\u0625\u0650", type: "kasra" }, { text: "\u0628\u0650", type: "kasra" }, { text: "\u062A\u0650", type: "kasra" }, { text: "\u062B\u0650", type: "kasra" }, { text: "\u062C\u0650", type: "kasra" }, { text: "\u062E\u0650", type: "kasra" },
+            { text: "\u0628\u064E", type: "fatha" }, { text: "\u062C\u064F", type: "damma" }, { text: "\u0634\u064F", type: "damma" }, { text: "\u0633\u064E", type: "fatha" }, { text: "\u0622", type: "fatha" }
         ],
         sukun: [
             { text: "أَبْ", type: "sukun" }, { text: "أَتْ", type: "sukun" }, { text: "أَثْ", type: "sukun" }, { text: "مَنْ", type: "sukun" }, { text: "قُمْ", type: "sukun" }, { text: "هَلْ", type: "sukun" },
-            { text: "بَ", type: "fatha" }, { text: "بِ", type: "kasra" }, { text: "بُ", type: "damma" }, { text: "تَ", type: "fatha" }, { text: "سِ", type: "kasra" }
+            { text: "\u0628\u064E", type: "fatha" }, { text: "\u0628\u0650", type: "kasra" }, { text: "\u0628\u064F", type: "damma" }, { text: "\u062A\u064E", type: "fatha" }
         ]
     };
 
