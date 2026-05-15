@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>أكاديمية تبيان لتعليم القرآن 🎈</title>
     <style>
         :root {
@@ -68,7 +68,7 @@
             font-size: 16px;
         }
 
-        /* حاوية الحرف - فقاعة واضحة ومستقرة */
+        /* حاوية الحرف - فقاعة واضحة ومستقرة ومضبوطة للموبايل */
         .letter-container {
             position: absolute;
             display: inline-flex;
@@ -86,20 +86,22 @@
         }
 
         .main-char {
-            font-size: 34px;
+            font-size: 30px; /* تقليل بسيط لضمان الاحتواء الكامل */
             font-weight: bold;
             color: #333;
-            line-height: 1;
+            line-height: 1.1;
+            text-align: center;
         }
 
         .diacritic {
-            font-size: 30px;
+            font-size: 28px; /* ضبط الحجم ليناسب الشاشات الصغيرة */
             font-weight: bold;
-            height: 20px;
+            height: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            line-height: 1;
+            line-height: 0;
+            margin-bottom: 5px; /* مسافة متناسقة بين الحرف وتشكيله */
         }
 
         /* السلة وتصميم التشكيل عليها */
@@ -127,22 +129,25 @@
             top: -35px;
         }
 
-        /* تعديل المربع ليكون التشكيل واضحاً جداً */
+        /* تعديل المربع ليكون التشكيل في السنتر تماماً على الهاتف والكمبيوتر */
         #basket-label {
             background: #fff;
             color: #d32f2f;
-            font-size: 45px; /* تكبير التشكيل */
+            font-size: 45px; 
             font-weight: bold;
             width: 55px;
             height: 55px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%; /* جعل التشكيل في دائرة بيضاء ليبرز */
+            border-radius: 50%; 
             border: 3px solid #ff9800;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             margin-top: 10px;
             z-index: 6;
+            line-height: 0; 
+            padding-bottom: 24px; /* لرفع التشكيل وتوسيطه بدقة داخل الدائرة */
+            text-align: center;
         }
 
         .overlay-screen {
@@ -283,7 +288,7 @@
     };
 
     window.addEventListener('mousemove', (e) => { moveBasket(e.clientX); });
-    window.addEventListener('touchmove', (e) => { if(e.touches[0]) moveBasket(e.touches[0].clientX); });
+    window.addEventListener('touchmove', (e) => { if(e.touches[0]) moveBasket(e.touches[0].clientX); }, { passive: true });
 
     function moveBasket(xPos) {
         if (!gameActive) return;
@@ -330,7 +335,6 @@
         }
 
         // حل مشكلة أطراف الشاشة:
-        // نترك هامش 45 بكسل من كل جهة (نصف قطر الفقاعة + قليل من الأمان)
         const margin = 45;
         const availableWidth = container.offsetWidth - (margin * 2);
         let randomX;
@@ -356,7 +360,7 @@
             const bRect = basket.getBoundingClientRect();
             const lRect = containerEl.getBoundingClientRect();
 
-            // منطقة اصطدام دقيقة جداً
+            // منطقة اصطدام دقيقة جداً ومحسنة للموبايل
             if (
                 lRect.bottom >= bRect.top + 20 && 
                 lRect.right - 15 >= bRect.left &&
@@ -389,7 +393,8 @@
         let targetLevel = Math.floor(score / 70) + 1;
         if (targetLevel > currentLevel) {
             currentLevel = targetLevel;
-            currentSpeed = startSpeed + (currentLevel - 1) * 0.7; 
+            // زيادة الصعوبة بمعدل 0.6+ لكل مستوى ليناسب الموبايل
+            currentSpeed = startSpeed + (currentLevel - 1) * 0.6; 
             showLevelSplash();
         }
     }
