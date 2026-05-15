@@ -12,7 +12,7 @@
         }
 
         * {
-            box-sizing: border-box; /* لضمان دقة حسابات الأبعاد */
+            box-sizing: border-box;
         }
 
         body {
@@ -68,7 +68,7 @@
             font-size: 16px;
         }
 
-        /* حاوية الحرف - فقاعة واضحة ومستقرة ومضبوطة للموبايل */
+        /* حاوية الحرف المتساقط */
         .letter-container {
             position: absolute;
             display: inline-flex;
@@ -86,25 +86,24 @@
         }
 
         .main-char {
-            font-size: 30px; /* تقليل بسيط لضمان الاحتواء الكامل */
+            font-size: 30px;
             font-weight: bold;
             color: #333;
-            line-height: 1.1;
+            line-height: 1;
             text-align: center;
         }
 
         .diacritic {
-            font-size: 28px; /* ضبط الحجم ليناسب الشاشات الصغيرة */
+            font-size: 32px;
             font-weight: bold;
-            height: 15px;
+            height: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             line-height: 0;
-            margin-bottom: 5px; /* مسافة متناسقة بين الحرف وتشكيله */
         }
 
-        /* السلة وتصميم التشكيل عليها */
+        /* السلة */
         #basket {
             position: absolute;
             bottom: 30px;
@@ -129,25 +128,44 @@
             top: -35px;
         }
 
-        /* تعديل المربع ليكون التشكيل في السنتر تماماً على الهاتف والكمبيوتر */
+        /* الدائرة البيضاء على السلة مع دعم التموضع المطلق للتشكيل */
         #basket-label {
             background: #fff;
             color: #d32f2f;
-            font-size: 45px; 
+            font-size: 48px; 
             font-weight: bold;
             width: 55px;
             height: 55px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             border-radius: 50%; 
             border: 3px solid #ff9800;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             margin-top: 10px;
             z-index: 6;
-            line-height: 0; 
-            padding-bottom: 24px; /* لرفع التشكيل وتوسيطه بدقة داخل الدائرة */
-            text-align: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* فئات مخصصة لضبط مكان كل حركة داخل دائرة السلة على الموبايل */
+        #basket-label.pos-fatha {
+            padding-bottom: 0px;
+            line-height: 45px;
+        }
+        
+        #basket-label.pos-damma {
+            padding-bottom: 5px;
+            line-height: 45px;
+        }
+
+        #basket-label.pos-kasra {
+            padding-bottom: 26px; /* رفع الكسرة لأعلى لتدخل الدائرة */
+            line-height: 0;
+        }
+
+        #basket-label.pos-sukun {
+            padding-bottom: 10px;
+            line-height: 45px;
         }
 
         .overlay-screen {
@@ -220,7 +238,7 @@
     </div>
 
     <div id="basket">
-        <div id="basket-label">َ</div>
+        <div id="basket-label" class="pos-fatha">َ</div>
     </div>
 
     <div id="level-splash">
@@ -295,7 +313,6 @@
         const rect = container.getBoundingClientRect();
         let relativeX = xPos - rect.left;
         let halfBasket = basket.offsetWidth / 2;
-        // منع السلة من الخروج من الحواف
         if (relativeX < halfBasket) relativeX = halfBasket;
         if (relativeX > rect.width - halfBasket) relativeX = rect.width - halfBasket;
         basket.style.left = relativeX + 'px';
@@ -304,6 +321,11 @@
     function selectMode(mode, targetText, basketText) {
         selectedGameMode = mode;
         basketLabel.innerText = basketText;
+        
+        // مسح الفئات القديمة وتعيين الفئة المناسبة للحركة الحالية لتظهر في السنتر تماماً
+        basketLabel.className = ''; 
+        basketLabel.classList.add(`pos-${mode}`);
+
         document.getElementById('target-box').innerText = `المطلوب: ${targetText}`;
         mainMenu.style.display = 'none';
         startGame();
@@ -326,15 +348,18 @@
         charEl.classList.add('main-char');
         charEl.innerText = letterData.char;
 
+        // تعديل التموضع الداخلي للحروف المتساقطة لضمان سنترتها في الموبايل
         if (letterData.pos === "top") {
+            diacriticEl.style.marginTop = "0px";
             containerEl.appendChild(diacriticEl);
             containerEl.appendChild(charEl);
         } else {
+            // الكسرة تحت الحرف
+            diacriticEl.style.marginTop = "-15px"; 
             containerEl.appendChild(charEl);
             containerEl.appendChild(diacriticEl);
         }
 
-        // حل مشكلة أطراف الشاشة:
         const margin = 45;
         const availableWidth = container.offsetWidth - (margin * 2);
         let randomX;
@@ -345,7 +370,7 @@
         
         lastXPosition = randomX;
         containerEl.style.left = randomX + 'px';
-        containerEl.style.transform = 'translateX(-50%)'; // لضمان أن الإحداثي هو مركز الفقاعة
+        containerEl.style.transform = 'translateX(-50%)';
         containerEl.style.top = '-80px';
         container.appendChild(containerEl);
 
@@ -360,7 +385,6 @@
             const bRect = basket.getBoundingClientRect();
             const lRect = containerEl.getBoundingClientRect();
 
-            // منطقة اصطدام دقيقة جداً ومحسنة للموبايل
             if (
                 lRect.bottom >= bRect.top + 20 && 
                 lRect.right - 15 >= bRect.left &&
@@ -393,7 +417,6 @@
         let targetLevel = Math.floor(score / 70) + 1;
         if (targetLevel > currentLevel) {
             currentLevel = targetLevel;
-            // زيادة الصعوبة بمعدل 0.6+ لكل مستوى ليناسب الموبايل
             currentSpeed = startSpeed + (currentLevel - 1) * 0.6; 
             showLevelSplash();
         }
